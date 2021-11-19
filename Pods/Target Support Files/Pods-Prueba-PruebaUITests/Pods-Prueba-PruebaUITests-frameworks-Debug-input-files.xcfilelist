@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-Prueba-PruebaUITests/Pods-Prueba-PruebaUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework

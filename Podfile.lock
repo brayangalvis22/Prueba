@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (5.4.4)
+  - RNCryptor (5.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.4)
+  - RNCryptor (~> 5.0)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - RNCryptor
+
+SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  RNCryptor: a369134686cd2ad391323cc856b62e591193ba79
+
+PODFILE CHECKSUM: 0e705c14f1ddd7c2ac13b6ff3485c2f1605c0856
+
+COCOAPODS: 1.11.2
