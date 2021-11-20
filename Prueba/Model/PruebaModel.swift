@@ -65,11 +65,13 @@ class PruebaModel {
     AF.request("https://farmanet.minsal.cl/index.php/ws/getLocales")
       .validate()
       .responseDecodable(of: [Locales].self) { (response) in
-        
-        guard let films = response.value else { return }
-        completion(.success(result: films))
+        switch response.result {
+        case .success(let result):
+           completion(.success(result: result))
+        case .failure(let error):
+           completion(.error(result: ErrorApp.init(code: "0000", message: error.localizedDescription)))
+        }
       }
-    
   }
   
   
