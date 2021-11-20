@@ -35,8 +35,6 @@ class PruebaModel {
           try context.save()
           completion(.success(result: true))
           
-        }else{
-          print("ya existe")
         }
       }
     } catch {
@@ -46,7 +44,6 @@ class PruebaModel {
   }
   
   func login(user: DataUser,completion: @escaping ModelCompletion) {
-    print("user \(user.email)")
     do {
       if let context = appDelegate?.persistentContainer.viewContext {
         
@@ -54,7 +51,6 @@ class PruebaModel {
         let predicateEmail = NSPredicate(format: "email = %@", user.email)
         fetchRequest.predicate = predicateEmail
         let result = try context.fetch(fetchRequest)
-        print("user --> \(result.count)")
         completion(.success(result: result))
       }
     } catch {

@@ -13,9 +13,7 @@ class ViewController: UIViewController{
   
   var user = DataUser()
   var key: String = ""
-  
   var viewContent = UIView()
-  
   var emailLabel = UILabel()
   var emailField = UITextField()
   var passLabel = UILabel()
@@ -36,36 +34,53 @@ class ViewController: UIViewController{
       pruebaViewModel?.isLoginValid.dataBinding({ [] (param) in
         guard let isLoginValid = param else {  return }
         if isLoginValid {
-          
-          let vc = LocalesViewController()
-          vc.modalPresentationStyle = .fullScreen
-          self.present(vc, animated: true) {
-            
-          }
-          
+          let secondView = LocalesViewController(nibName: "Locales", bundle: nil)
+          self.navigationController?.pushViewController(secondView, animated: true)
         }else{
           self.present(Utilities.setAlert(sms: "Usuario o contraseña incorrecto"), animated: true, completion: nil)
         }
       })
     }
   }
-    
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.configureView()
+    self.addTargetButton()
+    self.customThemeColor()
     
     if let directoryLocation = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last {
         print("Documents Directory: \(directoryLocation)Application Support")
     }
-    self.configureView()
-//    loginButton.addTarget(self,action:#selector(login),for:.touchUpInside)
-    loginButton.addTarget(self, action: #selector (self.loginAction), for: .touchUpInside)
-
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    self.pruebaViewModel = PruebaViewModel()
+    
+    self.storeUser()
+    self.customThemeNavigation()
+  }
+  
+  func customThemeNavigation(){
+    self.title = "Login"
+    self.navigationController?.isNavigationBarHidden = false
+    let nav = self.navigationController?.navigationBar
+    nav?.barTintColor = .red
+    nav?.backgroundColor = .systemBlue
+    nav?.tintColor = .white
+    nav?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    nav?.isTranslucent = true
 
   }
   
+  func addTargetButton(){
+    loginButton.addTarget(self, action: #selector (self.loginAction), for: .touchUpInside)
+  }
+  
   private func configureView() {
-
+    
+    
     viewContent.backgroundColor = .white
     viewContent.translatesAutoresizingMaskIntoConstraints = false
     viewContent.layer.masksToBounds = true
@@ -73,7 +88,7 @@ class ViewController: UIViewController{
     
     emailLabel.text = "Email:"
     emailLabel.textColor = .black
-    emailLabel.textAlignment = .right
+    emailLabel.textAlignment = .left
     emailLabel.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(emailLabel)
     
@@ -83,17 +98,18 @@ class ViewController: UIViewController{
     
     passLabel.text = "Password:"
     passLabel.textColor = .black
-    passLabel.textAlignment = .right
+    passLabel.textAlignment = .left
     passLabel.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(passLabel)
     
     passField.layer.borderWidth = 1
     passField.translatesAutoresizingMaskIntoConstraints = false
+    passField.isSecureTextEntry = true
     view.addSubview(passField)
     
     loginButton.translatesAutoresizingMaskIntoConstraints = false
     loginButton.setTitle("Login", for: .normal)
-    loginButton.layer.borderWidth = 1
+    loginButton.layer.borderWidth = 0.5
     loginButton.layer.cornerRadius = 5
     loginButton.backgroundColor = .systemBlue
     view.addSubview(loginButton)
@@ -122,17 +138,15 @@ class ViewController: UIViewController{
       passLabel.heightAnchor.constraint(equalToConstant: 21),
       
       passField.topAnchor.constraint(equalTo: emailField.bottomAnchor, constant: 20),
-      passField.leadingAnchor.constraint(equalTo: passLabel.trailingAnchor, constant: 30),
+      passField.leadingAnchor.constraint(equalTo: passLabel.trailingAnchor, constant: 20),
       passField.trailingAnchor.constraint(equalTo: viewContent.trailingAnchor, constant: -30),
       passField.heightAnchor.constraint(equalToConstant: 21),
       
-      loginButton.topAnchor.constraint(equalTo: passField.bottomAnchor, constant: 20),
+      loginButton.topAnchor.constraint(equalTo: passField.bottomAnchor, constant: 30),
       loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       loginButton.heightAnchor.constraint(equalToConstant: 50),
       loginButton.widthAnchor.constraint(equalToConstant: 100),
-    
     ])
-        
   }
   
   
@@ -141,35 +155,24 @@ class ViewController: UIViewController{
     self.title = "login"
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    self.pruebaViewModel = PruebaViewModel()
-    self.storeUser()
-  }
-
-
+  
   func storeUser() {
     user.email = "brayan.galvis@prueba.co"
     user.password = "123456789"
     self.pruebaViewModel?.storeUser(email: user.email, password: user.password)
   }
   
-
   @objc func loginAction() {
-    print("login")
     
-    let vc = LocalesViewController()
-    vc.modalPresentationStyle = .fullScreen
-    self.present(vc, animated: true) {
-
+    guard let emailText = self.emailField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
+    guard let passText = self.passField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
+    
+    if emailText  != "" && passText != ""{
+      self.pruebaViewModel?.login(email: emailText, password: passText)
     }
     
-//    guard let emailText = self.emailField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
-//    guard let passText = self.passField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
-//    if emailText  != "" && passText != ""{
-//      self.pruebaViewModel?.login(email: emailText, password: passText)
-//    }
   }
-
+  
 }
 
 

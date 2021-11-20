@@ -55,14 +55,12 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
       switch response {
       case .success(let result):
        if let listChat = result as? [UserPersistent] {
-                  
           if !listChat.isEmpty {
             self?.mapDataUserDB(user: listChat)
             if !self!.listUser.isEmpty{
               self?.listUser.forEach({
                 let passDecrypt = self?.passDecrypt(pass: $0.password)
                 if passDecrypt == password{
-                  print("SON IGUALES LAS CONTRASEÑAS")
                   Constant.dataLogin = $0
                   self?.isLoginValid.value = true
                 }else{
