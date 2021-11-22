@@ -25,7 +25,7 @@ class LocalesViewController: UIViewController {
             localeTableView.reloadData()
           }
         }else{
-          self.present(Utilities.setAlert(sms: "Error"), animated: true, completion: nil)
+          self.present(Utilities.setAlert(sms: pruebaViewModel?.messageError ?? ""), animated: true, completion: nil)
         }
       })
     }

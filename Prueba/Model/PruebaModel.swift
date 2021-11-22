@@ -65,7 +65,6 @@ class PruebaModel {
   
   
   func getLocales(completion: @escaping ModelCompletion){
-    
     AF.request(localEndpoints.getLocales.rawValue)
       .validate()
       .responseDecodable(of: [Locales].self) { (response) in

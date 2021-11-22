@@ -43,5 +43,5 @@ class Utilities {
     alert.addAction(ok)
     return alert
   }
-  
+
 }

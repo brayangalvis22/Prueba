@@ -22,12 +22,12 @@ class ViewController: UIViewController{
   
   var pruebaViewModel: PruebaViewModel? {
     didSet{
-      pruebaViewModel?.isAddUserValid.dataBinding({ [] (param) in
+      pruebaViewModel?.isAddUserValid.dataBinding({ [self] (param) in
         guard let isAddUserValid = param else {  return }
         if isAddUserValid {
           print("Guardo con exito")
         }else{
-          print("Error al guardar el usuario")
+          self.present(Utilities.setAlert(sms: pruebaViewModel?.messageError ?? ""), animated: true, completion: nil)
         }
       })
       

@@ -16,7 +16,7 @@ protocol PruebaViewModelProtocol {
 }
 
 class PruebaViewModel: NSObject, PruebaViewModelProtocol {
-  let pruebaModel = PruebaModel()
+  var pruebaModel = PruebaModel()
   let isAddUserValid: Binding<Bool?>
   let isLoginValid: Binding<Bool?>
   let isGetLocalesValid: Binding<Bool?>
@@ -24,6 +24,7 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
   var user = DataUser()
   var listUser: [ListUser] = []
   var locales: [Locales] = []
+  var messageError: String = ""
   
   func storeUser(email: String, password: String) {
     
@@ -39,7 +40,8 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
       switch response {
       case .success(_):
         self?.isAddUserValid.value = true
-      case .error(_):
+      case .error(let error):
+        self?.messageError = error.message + " " + error.code
         self?.isAddUserValid.value = false
         break
       }
@@ -73,7 +75,8 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
           }
         }
         break
-      case .error(_):
+      case .error(let error):
+        self?.messageError = error.message + " " + error.code
         self?.isLoginValid.value = false
         break
       }
@@ -92,7 +95,8 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
         self?.locales = result as? [Locales] ?? []
         self?.isGetLocalesValid.value = true
         break
-      case .error(_):
+      case .error(let error):
+        self?.messageError = error.message + " " + error.code
         self?.isGetLocalesValid.value = false
         break
       }
@@ -129,7 +133,8 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
   }
   
   
-  override init() {
+   init(localModel: PruebaModel = PruebaModel()) {
+    self.pruebaModel = localModel
     self.isAddUserValid = Binding(nil)
     self.isLoginValid = Binding(nil)
     self.isGetLocalesValid = Binding(nil)
