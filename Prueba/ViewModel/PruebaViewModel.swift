@@ -110,17 +110,7 @@ class PruebaViewModel: NSObject, PruebaViewModelProtocol {
         return ListUser(userLocal: $0)
     }
   }
-  
-  
-  func generateKey() -> String{
-    do{
-      let key = try Utilities.generateEncryptionKey(withPassword: "asd")
-      return key
-    }catch{
-      print(error)
-    }
-    return ""
-  }
+
   
   func passDecrypt(pass: String) -> String{
     do{
