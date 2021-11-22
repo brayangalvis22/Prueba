@@ -10,6 +10,10 @@ import CoreData
 import UIKit
 import Alamofire
 
+enum localEndpoints: String {
+    case getLocales = "https://farmanet.minsal.cl/index.php/ws/getLocales"
+}
+
 typealias ModelCompletion = ( (_ response: ModelResponse<Any>) -> Void )
 
 class PruebaModel {
@@ -62,7 +66,7 @@ class PruebaModel {
   
   func getLocales(completion: @escaping ModelCompletion){
     
-    AF.request("https://farmanet.minsal.cl/index.php/ws/getLocales")
+    AF.request(localEndpoints.getLocales.rawValue)
       .validate()
       .responseDecodable(of: [Locales].self) { (response) in
         switch response.result {

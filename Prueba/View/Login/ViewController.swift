@@ -50,14 +50,11 @@ class ViewController: UIViewController{
     self.addTargetButton()
     self.customThemeColor()
     
-    if let directoryLocation = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last {
-        print("Documents Directory: \(directoryLocation)Application Support")
-    }
+
   }
   
   override func viewWillAppear(_ animated: Bool) {
     self.pruebaViewModel = PruebaViewModel()
-    
     self.storeUser()
     self.customThemeNavigation()
   }
