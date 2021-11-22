@@ -37,14 +37,14 @@ class InfoLocalViewController: UIViewController {
   
   func configureView(){
     let mirror = Mirror(reflecting: infoLocal)
-    var positionX = 100
+    var positionY = 100
     for child in mirror.children  {
       let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-      label.center = CGPoint(x: Int(self.view.frame.height) / 3 ,y: positionX)
+      label.center = CGPoint(x: Int(self.view.frame.height) / 3 ,y: positionY)
       label.textAlignment = .left
       label.text = "\(child.label ?? ""): \(child.value)"
       self.view.addSubview(label)
-      positionX = positionX + 20
+      positionY = positionY + 20
     }
 
   }
